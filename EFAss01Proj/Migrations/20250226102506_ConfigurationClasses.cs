@@ -47,4 +47,5 @@ namespace EFAss01Proj.Migrations
                 name: "StudentCourse");
         }
     }
+
 }
