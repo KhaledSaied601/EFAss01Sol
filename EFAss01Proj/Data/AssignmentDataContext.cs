@@ -26,12 +26,30 @@ namespace EFAss01Proj.Data
             modelBuilder.Entity<Course>(c =>
             {
                 c.HasKey(nameof(Course.Id));
-                c.Property<string>("Name").HasColumnType("varchar").HasMaxLength(25).IsRequired(true);
+                c.Property<string>("Name").HasColumnType("varchar").HasMaxLength(25);
 
             });
 
-            modelBuilder.ApplyConfiguration<CourseInstructor>(new CourseInstructorsConfiguration());
-            modelBuilder.ApplyConfiguration<StudentCourse>(new StudentCourseConfiguration());
+
+
+            modelBuilder.Entity<Student>().HasOne(s => s.Department).WithMany().HasForeignKey(s => s.DepartmentId);
+
+            modelBuilder.Entity<Course>().HasOne(c => c.Topic).WithMany().HasForeignKey(c => c.TopicId);
+
+
+
+            modelBuilder.Entity<Instructor>().HasOne(i => i.Department).WithMany().HasForeignKey(i => i.DepartmentId);
+
+
+
+            modelBuilder.Entity<Instructor>().HasOne(i => i.MangedDepartment).WithOne(d=>d.MangerInstructor).HasForeignKey<Department>(d=>d.InstructorId).IsRequired(true).OnDelete(DeleteBehavior.Cascade);
+
+
+
+
+
+
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
 

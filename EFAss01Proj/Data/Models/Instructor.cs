@@ -22,6 +22,14 @@ namespace EFAss01Proj.Data.Models
 
         public double HourRate { get; set; }
 
-        public int Dept_Id { get; set; }
+
+        public int DepartmentId { get; set; }
+
+        public Department Department { get; set; }
+
+
+
+
+        public Department MangedDepartment { get; set; }
     }
 }

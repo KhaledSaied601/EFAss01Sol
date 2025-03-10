@@ -11,5 +11,8 @@ namespace EFAss01Proj.Data.Models
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+
+        //ICollection<Course> Courses { get; set; }
     }
 }

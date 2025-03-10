@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EFAss01Proj.Migrations
+namespace EFAss01Proj.Data.Migrations
 {
     [DbContext(typeof(AssignmentDataContext))]
-    [Migration("20250226102506_ConfigurationClasses")]
-    partial class ConfigurationClasses
+    [Migration("20250310113623_OneToManyRelationshipDepartmentWithManyInstructors")]
+    partial class OneToManyRelationshipDepartmentWithManyInstructors
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,10 +45,12 @@ namespace EFAss01Proj.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("varchar");
 
-                    b.Property<int>("Top_Id")
+                    b.Property<int>("TopicId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TopicId");
 
                     b.ToTable("Courses");
                 });
@@ -80,9 +82,6 @@ namespace EFAss01Proj.Migrations
                     b.Property<DateOnly>("HiringDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("Ins_Id")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -107,7 +106,7 @@ namespace EFAss01Proj.Migrations
                     b.Property<double>("Bouns")
                         .HasColumnType("float");
 
-                    b.Property<int>("Dept_Id")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<double>("HourRate")
@@ -121,6 +120,8 @@ namespace EFAss01Proj.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Instructors");
                 });
@@ -140,7 +141,7 @@ namespace EFAss01Proj.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int>("Dept_Id")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("FName")
@@ -153,6 +154,8 @@ namespace EFAss01Proj.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Students");
                 });
@@ -188,6 +191,39 @@ namespace EFAss01Proj.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Topics");
+                });
+
+            modelBuilder.Entity("EFAss01Proj.Data.Models.Course", b =>
+                {
+                    b.HasOne("EFAss01Proj.Data.Models.Topic", "Topic")
+                        .WithMany()
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Topic");
+                });
+
+            modelBuilder.Entity("EFAss01Proj.Data.Models.Instructor", b =>
+                {
+                    b.HasOne("EFAss01Proj.Data.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("EFAss01Proj.Data.Models.Student", b =>
+                {
+                    b.HasOne("EFAss01Proj.Data.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
                 });
 #pragma warning restore 612, 618
         }

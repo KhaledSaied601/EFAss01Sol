@@ -4,16 +4,19 @@ using EFAss01Proj.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EFAss01Proj.Migrations
+namespace EFAss01Proj.Data.Migrations
 {
     [DbContext(typeof(AssignmentDataContext))]
-    partial class AssignmentDataContextModelSnapshot : ModelSnapshot
+    [Migration("20250310113205_intialCreate")]
+    partial class intialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,9 +44,6 @@ namespace EFAss01Proj.Migrations
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("varchar");
-
-                    b.Property<int>("Top_Id")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -77,9 +77,6 @@ namespace EFAss01Proj.Migrations
                     b.Property<DateOnly>("HiringDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("Ins_Id")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -103,9 +100,6 @@ namespace EFAss01Proj.Migrations
 
                     b.Property<double>("Bouns")
                         .HasColumnType("float");
-
-                    b.Property<int>("Dept_Id")
-                        .HasColumnType("int");
 
                     b.Property<double>("HourRate")
                         .HasColumnType("float");
@@ -135,9 +129,6 @@ namespace EFAss01Proj.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Dept_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("FName")

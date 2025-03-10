@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EFAss01Proj.Migrations
+namespace EFAss01Proj.Data.Migrations
 {
     [DbContext(typeof(AssignmentDataContext))]
-    [Migration("20250226094408_FluentAPI")]
-    partial class FluentAPI
+    [Migration("20250310113510_OneToManyRelationshipTopicWithManyCourses")]
+    partial class OneToManyRelationshipTopicWithManyCourses
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,12 +45,30 @@ namespace EFAss01Proj.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("varchar");
 
-                    b.Property<int>("Top_Id")
+                    b.Property<int>("TopicId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TopicId");
+
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("EFAss01Proj.Data.Models.CourseInstructor", b =>
+                {
+                    b.Property<int>("InstructorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Evaluate")
+                        .HasColumnType("int");
+
+                    b.HasKey("InstructorId", "CourseId");
+
+                    b.ToTable("CourseInstructors");
                 });
 
             modelBuilder.Entity("EFAss01Proj.Data.Models.Department", b =>
@@ -63,9 +81,6 @@ namespace EFAss01Proj.Migrations
 
                     b.Property<DateOnly>("HiringDate")
                         .HasColumnType("date");
-
-                    b.Property<int>("Ins_Id")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -90,9 +105,6 @@ namespace EFAss01Proj.Migrations
 
                     b.Property<double>("Bouns")
                         .HasColumnType("float");
-
-                    b.Property<int>("Dept_Id")
-                        .HasColumnType("int");
 
                     b.Property<double>("HourRate")
                         .HasColumnType("float");
@@ -124,7 +136,7 @@ namespace EFAss01Proj.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int>("Dept_Id")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("FName")
@@ -138,7 +150,25 @@ namespace EFAss01Proj.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DepartmentId");
+
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("EFAss01Proj.Data.Models.StudentCourse", b =>
+                {
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Grade")
+                        .HasColumnType("float");
+
+                    b.HasKey("StudentId", "CourseId");
+
+                    b.ToTable("StudentCourse");
                 });
 
             modelBuilder.Entity("EFAss01Proj.Data.Models.Topic", b =>
@@ -156,6 +186,28 @@ namespace EFAss01Proj.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Topics");
+                });
+
+            modelBuilder.Entity("EFAss01Proj.Data.Models.Course", b =>
+                {
+                    b.HasOne("EFAss01Proj.Data.Models.Topic", "Topic")
+                        .WithMany()
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Topic");
+                });
+
+            modelBuilder.Entity("EFAss01Proj.Data.Models.Student", b =>
+                {
+                    b.HasOne("EFAss01Proj.Data.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
                 });
 #pragma warning restore 612, 618
         }

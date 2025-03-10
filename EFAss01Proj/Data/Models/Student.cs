@@ -25,8 +25,15 @@ namespace EFAss01Proj.Data.Models
 
         public int Age { get; set; }
 
-        public int Dept_Id { get; set; }
 
+
+        #region Navigational Property 
+
+        public int DepartmentId { get; set; }
+
+        public Department Department { get; set; }
+
+        #endregion
 
     }
 }

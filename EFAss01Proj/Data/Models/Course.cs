@@ -16,7 +16,9 @@ namespace EFAss01Proj.Data.Models
 
         public string Description { get; set; }
 
-        public int Top_Id { get; set; }
+        public int TopicId { get; set; }
+
+        public Topic Topic { get; set; }
 
 
     }

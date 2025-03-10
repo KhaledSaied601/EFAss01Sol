@@ -14,6 +14,15 @@ namespace EFAss01Proj.Data.Models
 
         public DateOnly HiringDate { get; set; }
 
-        public int Ins_Id { get; set; }
+
+
+      
+
+        public int InstructorId { get; set; }
+        public Instructor MangerInstructor { get; set; }
+
+
+
+
     }
 }
